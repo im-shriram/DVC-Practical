@@ -70,7 +70,7 @@ def form_logger() -> logging.Logger:
     logger.setLevel(logging.INFO)
 
     # Create console handler with formatting
-    console_handler = logging.StreamHandler()
+    console_handler = logging.StreamHandler() # There are 2 types of handlers - StreamHandler and FileHandler
     console_handler.setLevel(logging.INFO)
     
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
