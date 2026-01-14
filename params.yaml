@@ -1,22 +1,22 @@
 data_ingestion:
   seed: 42
-  test_size: 0.2
+  test_size: 0.25
 
 feature_engineering:
-  max_features: 250
+  max_features: 500
 
 model_training:
   estimator:
     criterion: "gini"
     splitter: "best"
-    max_depth: 25
+    max_depth: 20
     min_samples_split: 10
     min_samples_leaf: 5
     max_features: "sqrt"
     random_state: 42
 
   bagging:
-    n_estimators: 500
+    n_estimators: 250
     max_samples: 0.75
     max_features: 0.75
     bootstrap: False
