@@ -202,7 +202,7 @@ def main() -> None:
     # dvclive storing path
     dvclive_path = home_dir / "dvclive"
     # with mlflow.start_run() as run:
-    with Live(dir=dvclive_path, save_dvc_exp=True, exp_name="experiment_1") as live:
+    with Live(dir=dvclive_path, save_dvc_exp=True, exp_name="experiment_2") as live:
         # Loading data
         train_df, test_df = load_data(data_dir=data_dir, live=live)
 
