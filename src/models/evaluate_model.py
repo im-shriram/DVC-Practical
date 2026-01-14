@@ -51,6 +51,7 @@ def load_data(data_dir: str, live: Live) -> pd.DataFrame:
     # Returning datasets
     return train_df.dropna(), test_df.dropna()
 
+
 # Loading Parameters
 def load_params(params_path: pathlib.Path, live:Live) -> None:
     logger = logging.getLogger(__name__)
@@ -77,6 +78,7 @@ def load_params(params_path: pathlib.Path, live:Live) -> None:
         # mlflow.log_params(params["model_training"]["estimator"])
         # mlflow.log_params(params["model_training"]["bagging"])
 
+
 # Loading Model
 def load_model(model_dir: str, live: Live) -> BaggingClassifier:
     logger = logging.getLogger(__name__)
@@ -99,6 +101,7 @@ def load_model(model_dir: str, live: Live) -> BaggingClassifier:
     # mlflow.sklearn.log_model(model)
 
     return model
+
 
 # Evaluating Model
 def evaluate_model(df: pd.DataFrame, model: BaggingClassifier, live: Live, split: str) -> None:
@@ -160,6 +163,7 @@ def evaluate_model(df: pd.DataFrame, model: BaggingClassifier, live: Live, split
     # mlflow.log_figure(fig, f"{split}_confusion_matrix.png")
     # plt.close()
 
+
 # Forming Logger
 def form_logger() -> logging.Logger:
     logger = logging.getLogger()
@@ -198,7 +202,7 @@ def main() -> None:
     # dvclive storing path
     dvclive_path = home_dir / "dvclive"
     # with mlflow.start_run() as run:
-    with Live(dir=dvclive_path, save_dvc_exp=True, exp_name="dummy_exp") as live:
+    with Live(dir=dvclive_path, save_dvc_exp=True, exp_name="experiment_1") as live:
         # Loading data
         train_df, test_df = load_data(data_dir=data_dir, live=live)
 
@@ -213,6 +217,7 @@ def main() -> None:
         evaluate_model(df=test_df, model=model, live=live, split="test")
 
         logger.info("Model Evaluation completed successfully")
+
 
 if __name__ == "__main__":
     main()

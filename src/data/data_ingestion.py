@@ -22,6 +22,7 @@ def load_params(params_path: pathlib.Path) -> Dict[str, Any]:
         logger.debug(f"Parameters loaded: {params['data_ingestion']}")
         return params['data_ingestion']
 
+
 # Loading Dataset
 def load_data(data_dir: pathlib.Path) -> pd.DataFrame:
     logger = logging.getLogger(__name__)
@@ -32,7 +33,8 @@ def load_data(data_dir: pathlib.Path) -> pd.DataFrame:
         df = pd.read_csv(filepath_or_buffer=f)
         logger.debug(f"Dataset loaded with shape: {df.shape}")
         return df
-    
+
+
 # Splitting Dataset
 def split_data(dataset: pd.DataFrame, params: Dict[str, Any]) -> Tuple[pd.DataFrame, pd.DataFrame]:
     logger = logging.getLogger(__name__)
@@ -45,6 +47,7 @@ def split_data(dataset: pd.DataFrame, params: Dict[str, Any]) -> Tuple[pd.DataFr
     
     logger.debug(f"Train set shape: {train_df.shape}, Test set shape: {test_df.shape}")
     return (train_df, test_df)
+
 
 # Storing Dataset
 def store_data(train_df: pd.DataFrame, test_df: pd.DataFrame, save_path: pathlib.Path) -> None:
@@ -63,6 +66,7 @@ def store_data(train_df: pd.DataFrame, test_df: pd.DataFrame, save_path: pathlib
     
     logger.debug(f"Saved train dataset to {train_path}")
     logger.debug(f"Saved test dataset to {test_path}")
+
 
 # Forming Logger
 def form_logger() -> logging.Logger:

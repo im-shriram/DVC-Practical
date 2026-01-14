@@ -25,6 +25,7 @@ def load_data(data_dir: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     # Returning datasets
     return (train_df.dropna(), test_df.dropna())
 
+
 # Loading Parameters
 def load_params(params_path: pathlib.Path) -> Dict[str, Any]:
     logger = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ def load_params(params_path: pathlib.Path) -> Dict[str, Any]:
         
         logger.debug(f"Parameters loaded: {params['feature_engineering']}")
         return params['feature_engineering']
+
 
 # Training and saving feature encoder
 def train_vectorizer(train_df: pd.DataFrame, max_features: int, save_path: str) -> CountVectorizer:
@@ -57,14 +59,16 @@ def train_vectorizer(train_df: pd.DataFrame, max_features: int, save_path: str) 
     joblib.dump(value=vectorizer, filename=save_path / "bow.joblib")
     return vectorizer
 
+
 # Transforming feature encoder
 def encoding_feature(df: pd.DataFrame, vectorizer: CountVectorizer) -> pd.DataFrame:
     # Transform the entire content column at once instead of applying row by row
     content_transformed = vectorizer.transform(df['content'].values)
  
     # Convert sparse matrix to dense array
-    df = pd.concat(objs=[df, pd.DataFrame(content_transformed.toarray())], axis=1)
+    df = pd.concat(objs=[df, pd.DataFrame(content_transformed.toarray(), columns=vectorizer.get_feature_names_out())], axis=1)
     return df
+
 
 # Save the dataset
 def save_data(train_df: pd.DataFrame, test_df: pd.DataFrame, save_dir: str) -> None:
@@ -79,6 +83,7 @@ def save_data(train_df: pd.DataFrame, test_df: pd.DataFrame, save_dir: str) -> N
     # Saving the datasets
     train_df.to_csv(path_or_buf=save_path / "train.csv", index=False)
     test_df.to_csv(path_or_buf=save_path / "test.csv", index=False)
+
 
 # Forming logger
 def form_logger() -> logging.Logger:
@@ -132,6 +137,7 @@ def main() -> None:
     save_data(train_df=train_df_encoded, test_df=test_df_encoded, save_dir=data_dir)
 
     logger.info("Feature Engineering completed successfully")
+
 
 if __name__ == "__main__":
     main()

@@ -3,7 +3,6 @@ import pandas as pd
 import pathlib
 import re
 import json
-from textblob import TextBlob
 import emoji
 import logging
 from typing import Tuple, Dict
@@ -33,9 +32,11 @@ def load_data(data_dir: str) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[str, str]
     # Returning datasets
     return (train_df, test_df, chat_words_map)
 
+
 # Preprocessing
-def preprocessing(df: pd.DataFrame, chat_words_map: Dict[str, str]):
+def preprocessing(df: pd.DataFrame, chat_words_map: Dict[str, str], mode: str = "train"):
     logger = logging.getLogger(__name__)
+    logger.info(f"Started preprocessing f{mode} dataset")
     
     # Lowercasing
     logger.debug("Lowercasing the dataset")
@@ -95,6 +96,7 @@ def preprocessing(df: pd.DataFrame, chat_words_map: Dict[str, str]):
     # Return the precessed dataset
     return df
 
+
 # Save the dataset
 def save_data(train_df: pd.DataFrame, test_df: pd.DataFrame, save_dir: str) -> None:
     logger = logging.getLogger(__name__)
@@ -108,6 +110,7 @@ def save_data(train_df: pd.DataFrame, test_df: pd.DataFrame, save_dir: str) -> N
     # Saving the datasets
     train_df.to_csv(path_or_buf=save_path / "train.csv", index=False)
     test_df.to_csv(path_or_buf=save_path / "test.csv", index=False)
+
 
 def form_logger() -> logging.Logger:
     logger = logging.getLogger()
@@ -126,6 +129,7 @@ def form_logger() -> logging.Logger:
     
     return logger
 
+
 # main function
 def main() -> None:
     # Forming Logger
@@ -142,15 +146,15 @@ def main() -> None:
     train_df, test_df, chat_words_map = load_data(data_dir=data_dir)
 
     # Preprocessing Data
-    logger.info(f"Started preprocessing train dataset")
-    train_df = preprocessing(df=train_df, chat_words_map=chat_words_map)
+    train_df = preprocessing(df=train_df, chat_words_map=chat_words_map, mode="train")
 
-    logger.info(f"Started preprocessing test dataset")
-    test_df = preprocessing(df=test_df, chat_words_map=chat_words_map)
+    test_df = preprocessing(df=test_df, chat_words_map=chat_words_map, mode="test")
 
     # Saving the preprocessed data
     save_data(train_df=train_df, test_df=test_df, save_dir=data_dir)
 
     logger.info("Data preprocessing completed successfully")
+
+
 if __name__ == "__main__":
     main()

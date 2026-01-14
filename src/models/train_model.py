@@ -8,6 +8,7 @@ import yaml
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import BaggingClassifier
 
+
 # Loading Data
 def load_data(data_dir: str) -> pd.DataFrame:
     logger = logging.getLogger(__name__)
@@ -22,6 +23,7 @@ def load_data(data_dir: str) -> pd.DataFrame:
     # Returning datasets
     return train_df.dropna()
 
+
 # Loading Parameters
 def load_params(params_path: pathlib.Path) -> Dict[str, Any]:
     logger = logging.getLogger(__name__)
@@ -35,6 +37,7 @@ def load_params(params_path: pathlib.Path) -> Dict[str, Any]:
             raise KeyError("model_training section not found in parameters file")
 
         return params['model_training']
+
 
 # Build and Train Random Forest model
 def train_model(df: pd.DataFrame, params: Dict[str, str]) -> BaggingClassifier:
@@ -55,6 +58,7 @@ def train_model(df: pd.DataFrame, params: Dict[str, str]) -> BaggingClassifier:
     model.fit(X=X_train, y=y_train)
     return model
 
+
 # Save the Model
 def save_model(model: BaggingClassifier, save_dir: str) -> None:
     logger = logging.getLogger(__name__)
@@ -64,6 +68,7 @@ def save_model(model: BaggingClassifier, save_dir: str) -> None:
     logger.info(msg=f"Saving the `BaggingClasifier` Model at {save_path}")
     
     joblib.dump(value=model, filename=save_path / "bagging_classifier.joblib")
+
 
 # Forming Logger
 def form_logger() -> logging.Logger:
@@ -82,6 +87,7 @@ def form_logger() -> logging.Logger:
         logger.addHandler(console_handler)
     
     return logger
+
 
 # Main function
 def main() -> None:
@@ -109,6 +115,7 @@ def main() -> None:
     save_model(model=model, save_dir=models_path)
 
     logger.info(msg="Model Training completed successfully")
+
 
 if __name__ == "__main__":
     main()
